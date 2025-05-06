@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Product - AGR Shop</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar Styling */
+        nav {
+            background-color: #0d253f;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        nav h1 {
+            font-size: 1.8em;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 8px;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #3578e5;
+        }
+
+        /* Form and Section Styling */
+        h2, h3 {
+            color: #2b3e50;
+            font-size: 1.6em;
+            margin: 20px 0;
+        }
+        p {
+            color: #6c757d;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        form button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Product List Styling */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li a {
+            color: #dc3545;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav h1 {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <h1>AGR Shop</h1>
+    <div>
+        <a href="{% url 'products' %}">Back to Products</a>
+    </div>
+</nav>
+
+<!-- Register Product Section -->
+<div style="padding: 30px;">
+    <h2>Register a Product</h2>
+
+    {% if user.profile.role != 'seller' %}
+        <p>You do not have permission to access this page. Only sellers can register products.</p>
+        <a href="{% url 'products' %}">Go Back to Products</a>
+    {% else %}
+        <!-- Product Registration Form -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Display Registered Products -->
+        <h3>Your Products</h3>
+        <ul>
+            {% for product in products %}
+                <li>
+                    <span>{{ product.name }} - {{ product.stock }} in stock</span>
+                    <a href="{% url 'remove_product' product.id %}">Remove Product</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - AGR Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 {
+            margin: 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .cart-container {
+            padding: 20px;
+        }
+        .cart-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .cart-item p {
+            margin: 0;
+        }
+        .total {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .place-order-btn {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .place-order-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>AGR</h1>
+        <div>
+            <a href="{% url 'products' %}">Products</a>
+            <a href="{% url 'orders' %}">Orders</a>
+        </div>
+    </nav>
+
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        
+        {% if cart_items %}
+            <div>
+                {% for item in cart_items %}
+                    <div class="cart-item">
+                        <p>{{ item.product.name }} (x{{ item.quantity }})</p>
+                        <p>${{ item.get_total_price }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <p class="total"><strong>Total: ${{ total }}</strong></p>
+            <a href="{% url 'place_order' %}" class="place-order-btn">Place Order</a>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

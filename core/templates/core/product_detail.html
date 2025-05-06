@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        nav h1 {
+            font-size: 1.8em;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #555;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .product-detail {
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .product-detail img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover; /* Ensures images are properly resized */
+            max-height: 350px; /* Limits image height */
+            flex: 1 1 300px;
+        }
+
+        .product-info {
+            flex: 2 1 400px; /* Makes the text section larger */
+            max-width: 500px;
+        }
+
+        .product-detail h2 {
+            margin-top: 0;
+            font-size: 2em;
+            color: #333;
+        }
+        .product-detail p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6em;
+        }
+        .product-detail p strong {
+            font-weight: bold;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons a {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .buttons a:hover {
+            background: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .product-detail {
+                flex-direction: column;
+                padding: 20px;
+            }
+            .product-detail img {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            .buttons a {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h1>AGR Shop</h1>
+    <div>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'products' %}">Products</a>
+        <a href="{% url 'cart' %}">Cart ({{ cart_count }})</a>
+        <a href="{% url 'register_product' %}">Register Product</a>
+    </div>
+</nav>
+
+<div class="product-detail">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    <div class="product-info">
+        <h2>{{ product.name }}</h2>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <div class="buttons">
+            <!-- Button to Add to Cart -->
+            <a href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+            <a href="{% url 'place_order' %}" class="place-order-btn">Place Order</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
