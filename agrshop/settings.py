@@ -12,7 +12,8 @@ SECRET_KEY = config('SECRET_KEY', default='unsafe-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*']  # Use '*' or render app URL, e.g., 'your-app.onrender.com'
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -57,12 +58,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agrshop.wsgi.application'
 
-# Database
+import dj_database_url
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default='sqlite:///db.sqlite3')
-    )
+    'default': dj_database_url.config(default=os.environ.get('postgresql://gireshraju:7SEenHDLq8dc3mOXDlfMNsCZ4JlFcov5@dpg-d0dnqkk9c44c73acqc3g-a.oregon-postgres.render.com/mydb_86eh'))
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
